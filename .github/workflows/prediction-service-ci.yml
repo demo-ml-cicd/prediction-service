@@ -57,3 +57,25 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+
+  deploy_k8s:
+    name: AKS Deployment
+    runs-on: ubuntu-latest
+    needs: [ docker ]
+    steps:
+      # Checkout the repo
+      - uses: actions/checkout@master
+
+      - name: Helm Install
+        uses: azure/setup-helm@v1
+
+      - name: kubeconfig
+        run: echo "${{ secrets.KUBECONFIG }}" >> kubeconfig
+
+      - name: Helm Upgrade
+        run: |
+          helm upgrade --install prediction-service --namespace airflow-stage ./chart
+        env:
+          KUBECONFIG: './kubeconfig'
+          HELM_EXPERIMENTAL_OCI: 1
