@@ -39,9 +39,8 @@ jobs:
         uses: juliangruber/read-file-action@v1
         with:
           path: ./model-path.txt
-
-        - name: Echo model_path
-          run: echo "${{ steps.model-path.outputs.content }}"
+      - name: Echo model_path
+        run: echo "${{ steps.model-path.outputs.content }}"
 
       - uses: keithweaver/aws-s3-github-action@master
         with:
