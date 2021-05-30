@@ -1,0 +1,11 @@
+image:
+  tag: pr-1
+
+replicas: 9
+maxSurge: 2
+maxUnavailable: 2
+
+service:
+  type: LoadBalancer
+  port: 8000
+  targetPort: 8000

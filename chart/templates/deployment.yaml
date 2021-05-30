@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prediction-service
+  labels:
+    app: prediction-service
+spec:
+  replicas: {{ .Values.replicas }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: {{ .Values.maxSurge }}
+      maxUnavailable: {{ .Values.maxUnavailable }}
+  selector:
+    matchLabels:
+      app: prediction-service
+  template:
+    metadata:
+      name: prediction-service
+      labels:
+        app: prediction-service
+    spec:
+      containers:
+        - image: mikhailmar/prediction-service:{{ .Values.image.tag }}
+          name: prediction-service
+          ports:
+            - containerPort: {{ .Values.service.port}}
+
+
