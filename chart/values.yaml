@@ -1,7 +1,7 @@
 image:
   tag: pr-1
 
-replicas: 9
+replicas: 1
 maxSurge: 2
 maxUnavailable: 2
 
