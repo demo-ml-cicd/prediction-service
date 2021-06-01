@@ -1,1 +1,1 @@
-s3://demo-cicd-made/models/heart_model.pkl
+s3://demo-cicd-made/models/heart_model_1.pkl
