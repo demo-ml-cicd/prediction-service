@@ -51,13 +51,20 @@ def main():
 @app.on_event("startup")
 def load_model():
     global model
-    model_path = "model.pkl"
-    if model_path is None:
-        err = f"PATH_TO_MODEL {model_path} is None"
+    from google.cloud import storage
+
+    model_path = os.getenv("MODEL_PATH")
+    local_path = "model.pkl"
+    client = storage.Client()
+    with open(local_path, "wb") as f:
+        client.download_blob_to_file(model_path, f)
+
+    if local_path is None:
+        err = f"PATH_TO_MODEL {local_path} is None"
         logger.error(err)
         raise RuntimeError(err)
 
-    model = load_object(model_path)
+    model = load_object(local_path)
 
 
 @app.get("/healz")
