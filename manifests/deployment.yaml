@@ -21,7 +21,7 @@ spec:
         app: fastapi-ml
     spec:
       containers:
-        - image: mikhailmar/prediction-service:pr-1
+        - image: mikhailmar/prediction-service:pr-3
           name: fastapi-ml
           ports:
             - containerPort: 8000
@@ -31,7 +31,7 @@ spec:
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: "/var/secrets/google/service-account.json"
           volumeMounts:
-            - mountPath: "/var/my-app"
+            - mountPath: "/var/secrets/google/"
               name: gcp-cred
               readOnly: true
       volumes:
