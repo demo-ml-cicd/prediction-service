@@ -5,7 +5,7 @@ metadata:
   labels:
     app: fastapi-ml
 spec:
-  replicas: 8
+  replicas: 3
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -21,9 +21,22 @@ spec:
         app: fastapi-ml
     spec:
       containers:
-        - image: mikhailmar/prediction-service:pr-1
+        - image: mikhailmar/prediction-service:pr-3
           name: fastapi-ml
           ports:
             - containerPort: 8000
+          env:
+            - name: MODEL_PATH
+              value: "gs://test-cluster-prod-bucket/models/heart_model_1.pkl"
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: "/var/secrets/google/service-account.json"
+          volumeMounts:
+            - mountPath: "/var/secrets/google/"
+              name: gcp-cred
+              readOnly: true
+      volumes:
+        - name: gcp-cred
+          secret:
+            secretName: service-account
 
 
